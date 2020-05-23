@@ -51,7 +51,12 @@ const QueryType = new GraphQLObjectType({
   fields: {
     people: {
       type: new GraphQLList(PersonType),
-      resolve: () => peopleData
+      args: {
+        filter: {
+          type: GraphQLString
+        }
+      },
+      resolve: (_, args) => peopleData.filter(p => p.name.includes(args.filter))
       // fields: {
       //   snack: {
       //     args: {

@@ -1,13 +1,13 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
-// import { client } from "./index";
+import { client } from "./index";
 
 const ALL_PEOPLE = gql`
-  query AllPeople {
-    people {
+  query AllPeople($filter: String!, $id: String!) {
+    people(filter: $filter) {
       id
       name
-      snack(id: "22") {
+      snack(id: $id) {
         name
       }
     }
@@ -15,12 +15,25 @@ const ALL_PEOPLE = gql`
 `;
 
 export default function App() {
-  const { loading, data } = useQuery(ALL_PEOPLE);
+  const { loading, data } = useQuery(ALL_PEOPLE, {
+    variables: {
+      filter: "",
+      id: "22"
+    }
+  });
 
   // console.log(data);
 
   // React.useEffect(() => {
-  //   client.query({ query: ALL_PEOPLE }).then(console.log);
+  //   client
+  //     .query({
+  //       query: ALL_PEOPLE,
+  //       variables: {
+  //         filter: "",
+  //         id: "22"
+  //       }
+  //     })
+  //     .then(console.log);
   // }, []);
 
   return (
